@@ -1,0 +1,17 @@
+[darwin]
+  clion   = "/Applications/CLion.app/Contents/MacOS/clion"
+  idea    = "/Applications/IntelliJ IDEA/Contents/MacOS/idea"
+  pycharm = "/Applications/PyCharm.app/Contents/MacOS/pycharm"
+  rider   = "/Applications/Rider.app/Contents/MacOS/rider"
+
+[linux]
+  clion   = "/opt/jetbrains/clion/bin/clion.sh"
+  idea    = "/opt/jetbrains/idea/bin/idea.sh"
+  pycharm = "/opt/jetbrains/pycharm/bin/pycharm.sh"
+  rider   = "/opt/jetbrains/rider/bin/rider.sh"
+
+[windows]
+  clion   = "C:/tools/jetbrains/clion/bin/clion64.exe"
+  idea    = "C:/tools/jetbrains/idea/bin/idea64.exe"
+  pycharm = "C:/tools/jetbrains/pycharm/bin/pycharm64.exe"
+  rider   = "C:/tools/jetbrains/rider/bin/rider64.exe"

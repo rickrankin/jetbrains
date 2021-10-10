@@ -1,0 +1,12 @@
+{
+	"authors": [
+		"Rick Rankin"
+	],
+	"dependencies": {
+    "dutils": "*",
+		"toml": ">=1.0.0-rc.3 <1.1.0-0"
+	},
+	"description": "Launcher for JetBrains IDEs",
+	"license": "proprietary",
+	"name": "jetbrains"
+}

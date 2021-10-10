@@ -1,0 +1,10 @@
+.dub/
+.idea/
+dub.settings.json
+*.obj
+*.exe
+*.lib
+*.dll
+*.o
+*.a
+*.so
