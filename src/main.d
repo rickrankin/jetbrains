@@ -6,6 +6,10 @@ import dutils.format: format, print;
 import dutils.path: Path;
 import dutils.toml;
 
+
+version (Windows) immutable(string) DEV_NULL = "NUL:";
+version (Posix)   immutable(string) DEV_NULL = "/dev/null";
+
 class AppConfigError : Exception
 {
   this(string msg, string file = __FILE__, size_t line = __LINE__, Throwable nextInChain = null)
@@ -61,40 +65,15 @@ class AppConfig
 }
 
 
-version (Posix)
+void start(string[] args, Path logFile)
 {
-  void start(string[] args)
-  {
-    auto logStream = File(logFile.toString(), "w");
-    scope(exit) logStream.close();
+  auto logStream = File(logFile, "w");
+  scope(exit) logStream.close();
 
-    auto devNullStream = File(devNullName, "r");
-    scope(exit) devNullStream.close();
+  auto devNullStream = File(DEV_NULL, "r");
+  scope(exit) devNullStream.close();
 
-    spawnProcess(cmd, devNullStream, logStream, logStream, null, Config.detached);
-  }
-}
-
-
-version (Windows)
-{
-  import core.sys.windows.core;
-  import dutils.windows.shell;
-
-  void start(string[] args)
-  {
-    auto execParams = ShellExecParams()
-      .verb("open")
-      .file(args[0])
-      .dir(Path.cwd)
-      .show(SW_SHOW);
-
-    if (args.length > 1)
-      execParams.params = args[1..$];
-
-    auto result = shellExec(execParams);
-    scope(exit) CloseHandle(result.process);
-  }
+  spawnProcess(args, devNullStream, logStream, logStream, null, Config.detached);
 }
 
 
@@ -103,9 +82,6 @@ int main(string[] args)
   auto app = Path(args[0]);
   auto logDir = Path.home / ".local" / "log";
   auto logFile = logDir / app.withSuffix(".log").name;
-
-  version (Windows) string devNullName = "NUL:";
-  version (Posix)   string devNullName = "/dev/null";
 
   int result = 0;
 
@@ -116,7 +92,7 @@ int main(string[] args)
     string[] cmd = [jetbrainsAppPath];
     if (args.length > 1)
       cmd ~= args[1..$];
-    start(cmd);
+    start(cmd, logFile);
   }
   catch (Exception ex)
   {
